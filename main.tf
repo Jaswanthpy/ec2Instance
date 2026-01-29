@@ -42,7 +42,7 @@ resource "aws_instance" "spot_instance" {
   instance_market_options {
     market_type = "spot"
     spot_options {
-      max_price          = 0.005 # Set your max price or leave commented to use on-demand price
+      max_price          = 0.01 # Set your max price or leave commented to use on-demand price
       spot_instance_type = "one-time"
     }
   }
