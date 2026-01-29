@@ -35,13 +35,14 @@ resource "aws_instance" "spot_instance" {
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
     nvm install --lts
     sudo apt install nodejs -y
+    curl -fsSL https://clawd.bot/install.sh | bash
   EOF
 
   # Spot Instance Request
   instance_market_options {
     market_type = "spot"
     spot_options {
-      max_price          = 0.01 # Set your max price or leave commented to use on-demand price
+      max_price          = 0.02 # Set your max price or leave commented to use on-demand price
       spot_instance_type = "one-time"
     }
   }
