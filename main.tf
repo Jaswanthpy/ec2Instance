@@ -35,7 +35,6 @@ resource "aws_instance" "spot_instance" {
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
     nvm install --lts
     sudo apt install nodejs -y
-    sudo curl -fsSL https://clawd.bot/install.sh | bash
   EOF
 
   # Spot Instance Request
