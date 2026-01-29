@@ -5,9 +5,9 @@ variable "region" {
 }
 
 variable "ami_id" {
-  description = "The AMI ID to use for the instance. If null, uses the latest Ubuntu 24.04."
+  description = "The AMI ID to use for the instance."
   type        = string
-  default     = null
+  default     = "ami-0ddca1eb9cd814242"
 }
 
 variable "instance_type" {

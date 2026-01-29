@@ -1,31 +1,37 @@
-# Data source for Ubuntu 24.04
-data "aws_ami" "ubuntu" {
-  most_recent = true
+resource "aws_security_group" "allow_ssh" {
+  name        = "allow_ssh"
+  description = "Allow SSH inbound traffic"
 
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd-3/ubuntu-noble-24.04-amd64-server-*"]
+  ingress {
+    description = "SSH from anywhere"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
-  owners = ["099720109477"] # Canonical
+  tags = var.tags
 }
 
 resource "aws_instance" "spot_instance" {
-  ami           = var.ami_id != null ? var.ami_id : data.aws_ami.ubuntu.id
-  instance_type = var.instance_type
-  key_name      = var.key_name != "" ? var.key_name : null
+  ami                    = var.ami_id
+  instance_type          = var.instance_type
+  key_name               = var.key_name != "" ? var.key_name : null
+  vpc_security_group_ids = [aws_security_group.allow_ssh.id]
 
   # Spot Instance Request
   instance_market_options {
     market_type = "spot"
     spot_options {
       max_price          = 0.0040 # Set your max price or leave commented to use on-demand price
-      spot_instance_type = "one-time"
+      spot_instance_type = "persistent"
     }
   }
 
