@@ -1,7 +1,7 @@
 variable "region" {
   description = "The AWS region to deploy to"
   type        = string
-  default     = "ap-south-1"
+  default     = "ap-south-2"
 }
 
 variable "ami_id" {
@@ -26,6 +26,6 @@ variable "tags" {
   description = "A map of tags to assign to the resource"
   type        = map(string)
   default = {
-    Name = "Terraform-Spot-Instance"
+    Name = "ClawdBot"
   }
 }

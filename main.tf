@@ -30,9 +30,14 @@ resource "aws_instance" "spot_instance" {
   instance_market_options {
     market_type = "spot"
     spot_options {
-      max_price          = 0.0040 # Set your max price or leave commented to use on-demand price
-      spot_instance_type = "persistent"
+      max_price          = 0.005 # Set your max price or leave commented to use on-demand price
+      spot_instance_type = "one-time"
     }
+  }
+
+  root_block_device {
+    volume_size = 8
+    volume_type = "gp3"
   }
 
   tags = var.tags
