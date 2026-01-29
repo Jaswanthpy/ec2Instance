@@ -26,6 +26,18 @@ resource "aws_instance" "spot_instance" {
   key_name               = var.key_name != "" ? var.key_name : null
   vpc_security_group_ids = [aws_security_group.allow_ssh.id]
 
+  user_data = <<-EOF
+    #!/bin/bash
+    sudo apt update
+    sudo apt upgrade -y
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    nvm install --lts
+    sudo apt install nodejs -y
+    sudo curl -fsSL https://clawd.bot/install.sh | bash
+  EOF
+
   # Spot Instance Request
   instance_market_options {
     market_type = "spot"
